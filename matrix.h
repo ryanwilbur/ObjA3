@@ -41,11 +41,4 @@ public:
 
 };
 
-
-// overload the << for stream output ( non member function )
-std::ostream& operator<<(std::ostream& stream, const matrix& m){
-    stream << m.print();
-    return stream;
-}
-
 #endif // MATRIX_H
