@@ -1,4 +1,4 @@
-Compile string: g++ -std=c++11 testMath.cpp matrix.cpp -o out
+Compile string: g++ -std=c++11 testMath.cpp math.cpp vector.cpp matrix.cpp -o out
 
 Ryan Wilbur
 B00737901
