@@ -6,24 +6,28 @@ matrix::matrix() : _size(0){
 }
 
 matrix::matrix(const size_t size):  _size(size){
-    INFO("Object of class matrix was created using matrix(size_t size) constructer");
-    mat = new vector* [size];
-    for (int i=0; i < size; i++){
-        mat[i] = new vector[size];
-    }
+    INFO("Object of class matrix was created using matrix(size_t) constructer");
 }
 
 matrix::matrix(size_t sizeRow, size_t sizeCol) : _sizeCol(sizeCol), _sizeRow(sizeRow), _size(sizeRow*sizeCol){
-    INFO("Object of class matrix was created using matrix(size_t sizeRow, size_t sizeCol) constructer");
+    INFO("Object of class matrix was created using matrix(size_t, size_t) constructer");
+    mat = new vector* [sizeRow];
+    for (int i=0; i < sizeRow; i++){
+        mat[i] = new vector(sizeCol);
+    }
 }
 
 matrix::matrix(int* data_input, size_t sizeRow, size_t sizeCol) : _sizeCol(sizeCol), _sizeRow(sizeRow), _size(sizeRow*sizeCol){
-    INFO("Object of class matrix was created using matrix(int* data_input, size_t sizeRow, size_t sizeCol) constructer");
+    INFO("Object of class matrix was created using matrix(int*, size_t, size_t) constructer");
     // loop through input
+    mat = new vector* [sizeRow];
+    for (int i=0; i < sizeRow; i++){
+        mat[i] = new vector(data_input, data_input+sizeCol);
+    }
 }
 matrix::matrix(int* data_input, size_t size): _size(size){
-    INFO("Object of class matrix was created using matrix(int* data_input, size_t size) constructer");
-    // loop through input
+    INFO("Object of class matrix was created using matrix(int*, size_t) constructer");
+    // loop through input (how to know size of each vector)
 }
 
 matrix::matrix(vector** data, size_t row, size_t col) : _sizeRow(row), _sizeCol(col), _size(row*col){
@@ -35,11 +39,14 @@ matrix::matrix(vector** data, size_t row, size_t col) : _sizeRow(row), _sizeCol(
 }
 
 matrix::~matrix(){
+    INFO("Object of class matrix deleted");
+    for(int i = 0; i < _sizeRow; i++){
+        delete mat[i];
+    }
     delete mat;
     _size = 0;
     _sizeRow = 0;
     _sizeCol = 0;
-    INFO("Object Matrix Deleted");
 }
 
 vector& matrix::operator[](size_t index){
