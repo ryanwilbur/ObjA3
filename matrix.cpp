@@ -20,9 +20,15 @@ matrix::matrix(size_t sizeRow, size_t sizeCol) : _sizeCol(sizeCol), _sizeRow(siz
 matrix::matrix(int* data_input, size_t sizeRow, size_t sizeCol) : _sizeCol(sizeCol), _sizeRow(sizeRow), _size(sizeRow*sizeCol){
     INFO("Object of class matrix was created using matrix(int*, size_t, size_t) constructer");
     // loop through input
-    mat = new vector* [sizeRow];
+    mat = new vector* [sizeCol];
+    int* startOfVec = data_input;
+    int* endOfVec = data_input+sizeCol;
     for (int i=0; i < sizeRow; i++){
-        mat[i] = new vector(data_input, data_input+sizeCol);
+        vector* newVec = new vector(sizeCol);
+        newVec->assign(startOfVec, endOfVec);
+        mat[i] = newVec;
+        startOfVec = endOfVec;
+        endOfVec = startOfVec + sizeCol;
     }
 }
 matrix::matrix(int* data_input, size_t size): _size(size){
@@ -84,12 +90,10 @@ matrix matrix::operator +(const matrix & nextObject) const{
 std::string matrix::print() const{
     std::string print = "Matrix: size(" + std::to_string(_size) + ")\n";
     for(int row = 0; row < _sizeRow; row++){
-        print += "[";
         for (int col = 0; col < _sizeCol; col++){
-            if (col != 0) print += ", "; // add comma if not printing the first item
-            print += mat[row]->data[col];
+            // data[2][4] = 1
+            print += "data[" + std::to_string(row) + "][" + std::to_string(col) +"] = " + std::to_string(mat[row]->data[col]) + "\n";
         }
-        print += "]";
     }
     return print;
 }
