@@ -19,17 +19,18 @@ matrix::matrix(size_t sizeRow, size_t sizeCol) : _sizeCol(sizeCol), _sizeRow(siz
 
 matrix::matrix(int* data_input, size_t sizeRow, size_t sizeCol) : _sizeCol(sizeCol), _sizeRow(sizeRow), _size(sizeRow*sizeCol){
     INFO("Object of class matrix was created using matrix(int*, size_t, size_t) constructer");
+    this->assign(data_input, sizeRow, sizeCol);
     // loop through input
-    mat = new vector* [sizeCol];
-    int* startOfVec = data_input;
-    int* endOfVec = data_input+sizeCol;
-    for (int i=0; i < sizeRow; i++){
-        vector* newVec = new vector(sizeCol);
-        newVec->assign(startOfVec, endOfVec);
-        mat[i] = newVec;
-        startOfVec = endOfVec;
-        endOfVec = startOfVec + sizeCol;
-    }
+    // mat = new vector* [sizeCol];
+    // int* startOfVec = data_input;
+    // int* endOfVec = data_input+sizeCol;
+    // for (int i=0; i < sizeRow; i++){
+    //     vector* newVec = new vector(sizeCol);
+    //     newVec->assign(startOfVec, endOfVec);
+    //     mat[i] = newVec;
+    //     startOfVec = endOfVec;
+    //     endOfVec = startOfVec + sizeCol;
+    // }
 }
 matrix::matrix(int* data_input, size_t size): _size(size){
     INFO("Object of class matrix was created using matrix(int*, size_t) constructer");
@@ -64,7 +65,18 @@ size_t matrix::get_sizeRow()const { return _sizeRow; }
 size_t matrix::get_sizeCol()const { return _sizeCol; }
 
 void matrix::assign(int* data_input, size_t sizeRow, size_t sizeCol){
-    // make loop
+    _size = sizeRow * sizeCol;
+    _sizeRow = sizeRow;
+    _sizeCol = sizeCol;
+    mat = new vector* [sizeCol];
+    int* startOfVec = data_input;
+    int* endOfVec = data_input+sizeCol;
+    for (int i=0; i < sizeRow; i++){
+        mat[i] = new vector(sizeCol);
+        mat[i]->assign(startOfVec, endOfVec);
+        startOfVec = endOfVec;
+        endOfVec = startOfVec + sizeCol;
+    }
 }
 
 void matrix::resize(size_t newSizeRow, size_t newSizeCol){
