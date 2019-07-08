@@ -9,11 +9,11 @@ math::~math(){
     INFO("Object of class math was deleted");
 }
 std::string math::print() const{
-    std::string print = "math";
+    std::string print = "Empty";
     return print;
 }
 size_t math::get_size() const {
-    return 1;
+    return 0;
 }
 
 // overload the << for stream output ( non member function )

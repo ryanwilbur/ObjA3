@@ -91,7 +91,7 @@ void matrix::resize(size_t newSizeRow, size_t newSizeCol){
             }
 
             // reassigning the old values
-            mat[rows]->resize(newSizeCol);
+            mat[rows]->resize(newSizeCol); // calling resize function instead of deleting and creating new object
             for(int col=0; col<_sizeCol; col++){
                 mat[rows][0][col] = oldVal[col];
             }
