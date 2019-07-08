@@ -101,13 +101,16 @@ void matrix::resize(size_t newSizeRow, size_t newSizeCol){
     _size = _sizeCol * _sizeRow;
 }
 
-// I am assuming that the passed in object is correct 
+// create 2 new vectors then make a new matrix and return it
 matrix matrix::add(const matrix& nextObject ) const{
-    vector** data;
+    vector** data = new vector*[_sizeCol];
     for(int row = 0; row < _sizeRow; row++){
+
+        int* vecValues = new int[_sizeCol];
         for (int col = 0; col < _sizeCol; col++){
-            data[row][col] = mat[row][col] + nextObject.mat[row][col];
+            vecValues[col] = mat[row][0][col] + nextObject.mat[row][0][col];
         }
+        data[row] = new vector(vecValues, vecValues+_sizeCol);
     }
     return matrix(data, _sizeRow, _sizeCol);
 }
