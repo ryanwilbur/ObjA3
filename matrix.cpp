@@ -22,9 +22,10 @@ matrix::matrix(int* data_input, size_t sizeRow, size_t sizeCol) : _sizeCol(sizeC
     INFO("Object of class matrix was created using matrix(int*, size_t, size_t) constructer");
     this->assign(data_input, sizeRow, sizeCol);
 }
+
 matrix::matrix(int* data_input, size_t size): _size(size){
     INFO("Object of class matrix was created using matrix(int*, size_t) constructer");
-    // loop through input (how to know size of each vector)
+    this->assign(data_input, 1, size); //1 row with size vector
 }
 
 matrix::matrix(vector** data, size_t row, size_t col) : _sizeRow(row), _sizeCol(col), _size(row*col){
@@ -71,6 +72,7 @@ void matrix::assign(int* data_input, size_t sizeRow, size_t sizeCol){
 }
 
 void matrix::resize(size_t newSizeRow, size_t newSizeCol){
+    // add a new vector if resizing 
     if (newSizeRow > _sizeRow){
         vector** newMat = new vector*[newSizeRow];
         for(int rows=0;rows < _sizeRow; rows++){
@@ -81,7 +83,7 @@ void matrix::resize(size_t newSizeRow, size_t newSizeCol){
     }
     _sizeRow = newSizeRow;
 
-    //new collumn
+    //new collumn in existing vectors 
     if(newSizeCol > _sizeCol){
         for(int rows=0;rows < _sizeRow; rows++){
             //save values of old vector
@@ -105,11 +107,13 @@ void matrix::resize(size_t newSizeRow, size_t newSizeCol){
 matrix matrix::add(const matrix& nextObject ) const{
     vector** data = new vector*[_sizeCol];
     for(int row = 0; row < _sizeRow; row++){
-
+        // create new int*
         int* vecValues = new int[_sizeCol];
         for (int col = 0; col < _sizeCol; col++){
+            // store the sum in the new int*
             vecValues[col] = mat[row][0][col] + nextObject.mat[row][0][col];
         }
+        // create new vector with the values 
         data[row] = new vector(vecValues, vecValues+_sizeCol);
     }
     return matrix(data, _sizeRow, _sizeCol);

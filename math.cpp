@@ -8,10 +8,14 @@ math::math(){
 math::~math(){
     INFO("Object of class math was deleted");
 }
+
+// alwasy print empty class
 std::string math::print() const{
-    std::string print = "Empty";
+    std::string print = "Empty math class";
     return print;
 }
+
+//always return 0
 size_t math::get_size() const {
     return 0;
 }

@@ -17,6 +17,7 @@ vector::vector(int* data_input_begin, int* data_input_end)
 : _size(data_input_end - data_input_begin)
 {
     INFO("object of class vector was created using the vector(int*, int*) constructor");
+    // new line which will initalize the data variable
     data = new int[_size];
     assign(data_input_begin, data_input_end);
 }
