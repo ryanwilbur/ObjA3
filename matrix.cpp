@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include <vector>
 
 
 matrix::matrix() : _size(0){
@@ -72,6 +73,9 @@ void matrix::assign(int* data_input, size_t sizeRow, size_t sizeCol){
     int* startOfVec = data_input;
     int* endOfVec = data_input+sizeCol;
     for (int i=0; i < sizeRow; i++){
+        // had to create a new vector and call assign becsue the vector below
+        // generates a pointer error
+        //mat[i] = new vector(startOfVec, endOfVec);
         mat[i] = new vector(sizeCol);
         mat[i]->assign(startOfVec, endOfVec);
         startOfVec = endOfVec;
@@ -80,12 +84,37 @@ void matrix::assign(int* data_input, size_t sizeRow, size_t sizeCol){
 }
 
 void matrix::resize(size_t newSizeRow, size_t newSizeCol){
+    if (newSizeRow > _sizeRow){
+        vector** newMat = new vector*[newSizeRow];
+        for(int rows=0;rows < _sizeRow; rows++){
+            newMat[rows] = mat[rows];
+        }
+        newMat[newSizeRow-1] = new vector(newSizeCol);
+        mat = newMat;
+    }
     _sizeRow = newSizeRow;
+
+    //new collumn
+    if(newSizeCol > _sizeCol){
+        for(int rows=0;rows < _sizeRow; rows++){
+            //save values of old vector
+            std::vector<int> oldVal;
+            for(int i=0;i < _sizeCol; i++){
+                oldVal.push_back(mat[rows][0][i]);
+            }
+
+            // reassigning the old values
+            mat[rows]->resize(newSizeCol);
+            for(int col=0; col<_sizeCol; col++){
+                mat[rows][0][col] = oldVal[col];
+            }
+        }
+    }
     _sizeCol = newSizeCol;
     _size = _sizeCol * _sizeRow;
 }
 
-// I am assuming that the passed in
+// I am assuming that the passed in object is correct 
 matrix matrix::add(const matrix& nextObject ) const{
     vector** data;
     for(int row = 0; row < _sizeRow; row++){
