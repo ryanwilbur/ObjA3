@@ -21,17 +21,6 @@ matrix::matrix(size_t sizeRow, size_t sizeCol) : _sizeCol(sizeCol), _sizeRow(siz
 matrix::matrix(int* data_input, size_t sizeRow, size_t sizeCol) : _sizeCol(sizeCol), _sizeRow(sizeRow), _size(sizeRow*sizeCol){
     INFO("Object of class matrix was created using matrix(int*, size_t, size_t) constructer");
     this->assign(data_input, sizeRow, sizeCol);
-    // loop through input
-    // mat = new vector* [sizeCol];
-    // int* startOfVec = data_input;
-    // int* endOfVec = data_input+sizeCol;
-    // for (int i=0; i < sizeRow; i++){
-    //     vector* newVec = new vector(sizeCol);
-    //     newVec->assign(startOfVec, endOfVec);
-    //     mat[i] = newVec;
-    //     startOfVec = endOfVec;
-    //     endOfVec = startOfVec + sizeCol;
-    // }
 }
 matrix::matrix(int* data_input, size_t size): _size(size){
     INFO("Object of class matrix was created using matrix(int*, size_t) constructer");
@@ -41,8 +30,10 @@ matrix::matrix(int* data_input, size_t size): _size(size){
 matrix::matrix(vector** data, size_t row, size_t col) : _sizeRow(row), _sizeCol(col), _size(row*col){
     INFO("Object of class matrix was created using matrix(vector**, size_t, size_t) constructer");
     // loop through the rows and grab each vector and put the vector in the rows
+    mat = new vector* [row];
     for(int row = 0; row < _sizeRow; row++){
-        mat[row] = data[row];
+        vector* newVec = new vector(*data[row]);
+        mat[row] = newVec;
     }
 }
 
@@ -73,11 +64,7 @@ void matrix::assign(int* data_input, size_t sizeRow, size_t sizeCol){
     int* startOfVec = data_input;
     int* endOfVec = data_input+sizeCol;
     for (int i=0; i < sizeRow; i++){
-        // had to create a new vector and call assign becsue the vector below
-        // generates a pointer error
-        //mat[i] = new vector(startOfVec, endOfVec);
-        mat[i] = new vector(sizeCol);
-        mat[i]->assign(startOfVec, endOfVec);
+        mat[i] = new vector(startOfVec, endOfVec);
         startOfVec = endOfVec;
         endOfVec = startOfVec + sizeCol;
     }

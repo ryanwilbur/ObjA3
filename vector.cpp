@@ -17,7 +17,7 @@ vector::vector(int* data_input_begin, int* data_input_end)
 : _size(data_input_end - data_input_begin)
 {
     INFO("object of class vector was created using the vector(int*, int*) constructor");
-    
+    data = new int[_size];
     assign(data_input_begin, data_input_end);
 }
 
@@ -92,14 +92,15 @@ int& vector::operator[](size_t index)
 
 vector vector::add(const vector & nextObject ) const 
 {
-    int add_data[nextObject.get_size()];
+    int* add_data = new int[nextObject.get_size()];
     if ( _size == nextObject.get_size() ) {
         for (size_t i = 0; i < _size; i++)
         {
             add_data[i] = data[i] + nextObject.data[i];
         }
     } else {
-        WARNING( "Size of the vectors should cbe the same" );
+        WARNING( "Size of the vectors should be the same" );
+        //return vector(add_data, nextObject.get_size()); 
     }
     return vector(add_data, add_data + _size);
 }
